@@ -31,19 +31,21 @@ pygame.display.set_caption('Python')
 # internal game clock
 clock = pygame.time.Clock()
 # images used inside the game
-waterImg = pygame.image.load('/Users/Chris/Downloads/PlanetCute PNG/Water Block.png')
-grassImg = pygame.image.load('/Users/Chris/Downloads/PlanetCute PNG/Grass Block.png')
-treeImg = pygame.image.load('/Users/Chris/Downloads/PlanetCute PNG/Tree Tall.png')
-bushImg = pygame.image.load('/Users/Chris/Downloads/PlanetCute PNG/Tree Short.png')
-pokeballImg = pygame.image.load('/Users/Chris/Downloads/poke.png')
-starImg = pygame.image.load('/Users/Chris/Downloads/PlanetCute PNG/Star.png')
-hoverImg = pygame.image.load('/Users/Chris/Downloads/hover.png')
-backgroundImg = pygame.image.load('/Users/Chris/Downloads/space.png')
+waterImg = pygame.image.load('PNG/Water Block.png')
+grassImg = pygame.image.load('PNG/Grass Block.png')
+treeImg = pygame.image.load('PNG/Tree Tall.png')
+bushImg = pygame.image.load('PNG/Tree Short.png')
+pokeballImg = pygame.image.load('images/poke.png')
+starImg = pygame.image.load('PNG/Star.png')
+hoverImg = pygame.image.load('images/hover.png')
+backgroundImg = pygame.image.load('images/space.png')
+global msg
 global pokemon
 # default pokemon - pikachu
 pokemon = "25"
+msg = "null"
 global pokemonImg
-pokemonImg = pygame.image.load('/Users/Chris/Downloads/%s.png' % (pokemon))
+pokemonImg = pygame.image.load('images/%s.png' % (pokemon))
 # dimensions of the grass block
 grass_height = 171
 grass_width = 101
@@ -84,7 +86,7 @@ object_startx = [0,0,0]
 object_starty = [0,0,0]
 # function to display the score
 def things_dodged(count):
-    font = pygame.font.Font(None,45)
+    font = pygame.font.Font(None,25)
     text = font.render(str(count), True, blue)
     gameDisplay.blit(starImg,(0,-55))
     gameDisplay.blit(text, (33,35))
@@ -110,6 +112,7 @@ def hover(w,h):
     gameDisplay.blit(hoverImg,(w,h))
 # function to display a pokemon
 def mypokemon(w,h):
+    pokemonImg = pygame.image.load('images/%s.png' % (pokemon))
     gameDisplay.blit(pokemonImg,(w,h))
 # function to fill the screen with an object
 def fillObject(x,y,xMax,yMax,objectW,objectH):
@@ -136,7 +139,7 @@ def text_objects(text, font, color):
     return textSurface, textSurface.get_rect()
 # function to display messages to the user
 def message_display(text):
-    largeText = pygame.font.Font('/Users/Chris/Downloads/Capture.ttf', 97)
+    largeText = pygame.font.Font('fonts/Capture.ttf', 97)
     TextSurf, TextRect = text_objects(text, largeText, blue)
     TextRect.center = ((display_width/2,display_height/2))
     gameDisplay.blit(TextSurf, TextRect)
@@ -146,7 +149,7 @@ def message_display(text):
     game_loop()
 # function to handle crashing
 def crash():
-    largeText = pygame.font.Font('/Users/Chris/Downloads/Capture.ttf', 57)
+    largeText = pygame.font.Font('fonts/Capture.ttf', 57)
     TextSurf, TextRect = text_objects('Out of Bounds', largeText, orange)
     TextRect.center = ((display_width/2,display_height/2))
     gameDisplay.blit(TextSurf, TextRect)
@@ -156,14 +159,21 @@ def crash():
                 pygame.quit()
                 quit()
     
-        button("Play Again",'/Users/Chris/Downloads/green.png',125,350,100,50,green,light_green,game_loop)
-        button("Quit",'/Users/Chris/Downloads/red.png',525,350,100,50,red,light_red,quitgame)
-        
-        pygame.display.update()
-    clock.tick(15)
+        button("Play Again",'images/green.png',125,350,100,50,green,light_green,game_loop)
+        button("Quit",'images/red.png',525,350,100,50,red,light_red,quitgame)
+        if msg == "Squirtle":
+            pokemon = "7"
+if msg == "Bulbasaur":
+    pokemon = "1"
+        if msg == "Charmander":
+            pokemon = "4"
+    pygame.display.update()
+        clock.tick(15)
 # function to handle being captured
 def captured():
-    largeText = pygame.font.Font('/Users/Chris/Downloads/Capture.ttf', 57)
+    global msg
+    global pokemon
+    largeText = pygame.font.Font('fonts/Capture.ttf', 57)
     TextSurf, TextRect = text_objects('You Were Captured', largeText, orange)
     TextRect.center = ((display_width/2,display_height/2))
     gameDisplay.blit(TextSurf, TextRect)
@@ -173,11 +183,16 @@ def captured():
                 pygame.quit()
                 quit()
     
-        button("Play Again",'/Users/Chris/Downloads/green.png',125,350,100,50,green,light_green,game_loop)
-        button("Quit",'/Users/Chris/Downloads/red.png',525,350,100,50,red,light_red,quitgame)
-        
-        pygame.display.update()
-    clock.tick(15)
+        button("Play Again",'images/green.png',125,350,100,50,green,light_green,game_loop)
+        button("Quit",'images/red.png',525,350,100,50,red,light_red,quitgame)
+        if msg == "Squirtle":
+            pokemon = "7"
+if msg == "Bulbasaur":
+    pokemon = "1"
+        if msg == "Charmander":
+            pokemon = "4"
+    pygame.display.update()
+        clock.tick(15)
 # function to create buttons
 def button(msg,file,x,y,w,h,ic,ac, action=None):
     mouse = pygame.mouse.get_pos()
@@ -187,31 +202,56 @@ def button(msg,file,x,y,w,h,ic,ac, action=None):
         if click[0] == 1 and action != None:
             action()
 
-smallText = pygame.font.Font("/Users/Chris/Downloads/sea.ttf",20)
+smallText = pygame.font.Font("fonts/sea.ttf",20)
     textSurf, textRect = text_objects(msg, smallText, blue)
     textRect.center = ( (x+(w/2)+25), (y+(h/2)+50) )
     gameDisplay.blit(textSurf, textRect)
 # function to select the starting pokemon for the game
-def poke(msg,file,x,y,w,h,ic,ac):
+def poke(file,x,y,w,h,ic,ac):
     global pokemon
+    global msg
+    global msgI
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     gameDisplay.blit(pygame.image.load(file),(x+10,y-pokemon_height-5))
     if x+pokemon_width > mouse[0] > x+10 and y > mouse[1] > y-pokemon_height:
         if click[0] == 1:
-            if msg == "Squirtle":
+            if x == 150:
                 pokemon = "7"
-            if msg == "Bulbasaur":
+                msg = "Squirtle"
+            if x == 350:
                 pokemon = "1"
-            if msg == "Charmander":
+                msg = "Bulbasaur"
+            if x == 550:
                 pokemon = "4"
+                msg = "Charmander"
     # gengar
     if 50 > mouse[0] > 0 and 50 > mouse[1] > 0:
         pokemon = "94"
-    smallText = pygame.font.Font("/Users/Chris/Downloads/LG.otf",20)
-    textSurf, textRect = text_objects(msg, smallText, white)
+        msg = "null"
+    # mew
+    if display_width > mouse[0] > display_width-50 and 50 > mouse[1] > 0:
+        pokemon = "151"
+        msg = "null"
+    smallText = pygame.font.Font("fonts/LG.otf",20)
+    textSurf, textRect = text_objects(msgI, smallText, white)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     gameDisplay.blit(textSurf, textRect)
+# function to allow pokemon to evolve - change the image
+def evolve(d,x,msg):
+    global pokemon
+    if d == x and msg == "Squirtle":
+        pokemon = "8"
+    if d == x*2 and msg == "Squirtle":
+        pokemon = "9"
+    if d == x and msg == "Bulbasaur":
+        pokemon = "2"
+    if d == x*2 and msg == "Bulbasaur":
+        pokemon = "3"
+    if d == x and msg == "Charmander":
+        pokemon = "5"
+    if d == x*2 and msg == "Charmander":
+        pokemon = "6"
 # function to terminate the game
 def quitgame():
     pygame.quit()
@@ -223,7 +263,7 @@ def unpause():
 # function for pausing the game
 def paused():
     
-    largeText = pygame.font.Font("/Users/Chris/Downloads/Capture.ttf",97)
+    largeText = pygame.font.Font("fonts/Capture.ttf",97)
     TextSurf, TextRect = text_objects("Paused", largeText, orange)
     TextRect.center = ((display_width/2),(display_height/2))
     gameDisplay.blit(TextSurf, TextRect)
@@ -235,8 +275,8 @@ def paused():
                 pygame.quit()
                 quit()
     
-    button("Continue",'/Users/Chris/Downloads/green.png',125,350,100,50,green,light_green,unpause)
-        button("Quit",'/Users/Chris/Downloads/red.png',525,350,100,50,red,light_red,quitgame)
+    button("Continue",'images/green.png',125,350,100,50,green,light_green,unpause)
+        button("Quit",'images/red.png',525,350,100,50,red,light_red,quitgame)
         
         pygame.display.update()
         clock.tick(15)
@@ -249,26 +289,33 @@ def game_intro():
                 pygame.quit()
                 quit()
         gameDisplay.blit(backgroundImg,(0,0))
-        largeText = pygame.font.Font('/Users/Chris/Downloads/f.ttf', 47)
+        largeText = pygame.font.Font('fonts/f.ttf', 47)
         TextSurf, TextRect = text_objects("POKEMON ON HOVERBOARDS", largeText, orange)
         TextRect.center = ((display_width/2,display_height/2))
         gameDisplay.blit(TextSurf, TextRect)
         
         # displays the buttons for the start menu
-        button("Go!",'/Users/Chris/Downloads/green.png',125,350,100,50, green, light_green, game_loop)
-        button("Quit",'/Users/Chris/Downloads/red.png',525,350,100,50, red, light_red, quitgame)
-        poke("Squirtle","/Users/Chris/Downloads/7.png",150,200,100,50, yellow, orange)
-        poke("Bulbasaur","/Users/Chris/Downloads/1.png",350,200,115,50, yellow, orange)
-        poke("Charmander","/Users/Chris/Downloads/4.png",550,200,140,50, yellow, orange)
+        button("Go!",'images/green.png',125,350,100,50, green, light_green, game_loop)
+        button("Quit",'images/red.png',525,350,100,50, red, light_red, quitgame)
+        # holds the name of the pokemon for the text displayed under said pokemon
+        global msgI
+        msgI = "Squirtle"
+        poke("images/7.png",150,200,100,50, yellow, orange)
+        msgI = "Bulbasaur"
+        poke("images/1.png",350,200,115,50, yellow, orange)
+        msgI = "Charmander"
+        poke("images/4.png",550,200,140,50, yellow, orange)
         
+        # updates the location of the image
         global pokemonImg
-        pokemonImg = pygame.image.load('/Users/Chris/Downloads/%s.png' % (pokemon))
+        pokemonImg = pygame.image.load('images/%s.png' % (pokemon))
         pygame.display.update()
     clock.tick(15)
 # function for the main game loop
 def game_loop():
     
     global pause
+    global msg
     # starting location of the pokemon on the hoverboard
     x = display_width - pokemon_width + 10
     y = display_height * 0.55
@@ -311,9 +358,8 @@ def game_loop():
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     y_change = 0
-    
             # changes the location of the pokemon
-        y += y_change
+            y += y_change
         # background color for the window
         gameDisplay.fill(white)
         # fillObject(x,y,xMax,yMax,objectW,objectH)
@@ -324,6 +370,8 @@ def game_loop():
         # landscape
         tree()
         bush()
+        # after a certain interval (x), evolve the pokemon
+        evolve(dodged,5,msg)
         # character on the hoverboard
         hover(x,y+35)
         mypokemon(x,y)
@@ -340,10 +388,10 @@ def game_loop():
                 # adds 1 to the total score
                 dodged += 1
                 # increases the speed of the pokeballs to be dodged
-                thing_speed += .5
-                # after 10 pokeballs have been dodged, then increase the # of pokeballs to 3
-                if dodged%10 == 0:
-                    numObjects = 3
+                thing_speed += .4
+                # after a set number of pokeballs have been dodged, then randomize the # of pokeballs
+                if dodged%3 == 0:
+                    numObjects = random.randrange(1,3)
             # determines if the pokemon is captured (pokeball collides with the pokemon)
             if x+pokemon_width-75 < object_startx[i]:
                 if object_starty[i]+pokeball_height-25 > y and object_starty[i]+pokeball_height < y+pokemon_height or object_starty[i] > y and object_starty[i] < y+pokemon_height:
@@ -351,12 +399,11 @@ def game_loop():
         # boundaries for the game
         if y-pokemon_height+30 < grass_height/2 or y > display_height - pokemon_height + 25:
             crash()
-# updates the entire screen or updates a specific object by passing a parameter
-# pygame.display.flip() updates the entire window without an option to pass any parameters
-pygame.display.update()
-    
-    # FPS
-    clock.tick(60)
+        # updates the entire screen or updates a specific object by passing a parameter
+        # pygame.display.flip() updates the entire window without an option to pass any parameters
+        pygame.display.update()
+        # FPS
+        clock.tick(75)
 # start menu for the game
 game_intro()
 # the main game function
@@ -364,4 +411,3 @@ game_loop()
 # terminates PyGame properly
 pygame.quit()
 quit()
-
