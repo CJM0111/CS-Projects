@@ -12,7 +12,7 @@ display_height = 600
 # initializes color variables using RGB
 black = (0,0,0)
 white = (255,255,255)
-red = (255,0,0)
+red = (255,50,50)
 green = (0,255,0)
 blue = (0,0,255)
 orange = (255,137,0)
@@ -59,7 +59,7 @@ forestY = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 # initial layout of the forest
 for x in range(0,20):
     forestX[x] = random.randrange(0,display_width)
-        forestY[x] = random.randrange(-100,tree_height-100)
+    forestY[x] = random.randrange(-100,tree_height-100)
 # dimensions of the bush
 bush_height = 171
 bush_width = 101
@@ -70,7 +70,7 @@ shrubY = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 # initial layout of the shrubbery
 for x in range(0,20):
     shrubX[x] = random.randrange(0,display_width)
-        shrubY[x] = random.randrange(-100,tree_height-100)
+    shrubY[x] = random.randrange(-100,tree_height-100)
 # dimensions of the pokeball
 pokeball_height = 50
 pokeball_width = 50
@@ -149,6 +149,8 @@ def message_display(text):
     game_loop()
 # function to handle crashing
 def crash():
+    global pokemon
+    global msg
     largeText = pygame.font.Font('fonts/Capture.ttf', 57)
     TextSurf, TextRect = text_objects('Out of Bounds', largeText, orange)
     TextRect.center = ((display_width/2,display_height/2))
@@ -237,21 +239,56 @@ def poke(file,x,y,w,h,ic,ac):
     textSurf, textRect = text_objects(msgI, smallText, white)
     textRect.center = ( (x+(w/2)), (y+(h/2)) )
     gameDisplay.blit(textSurf, textRect)
+# function to display a message saying the pokemon has evolved
+def evolveMessage(N,oN):
+    # display original pokemon name
+    largeText = pygame.font.Font("fonts/Capture.ttf",57)
+    TextSurf, TextRect = text_objects(oN,largeText, white)
+    TextRect.center = ((display_width/2),(display_height/4-100))
+    gameDisplay.blit(TextSurf, TextRect)
+    # evolved
+    largeText = pygame.font.Font("fonts/Capture.ttf",57)
+    TextSurf, TextRect = text_objects("EVOLVED INTO", largeText, white)
+    TextRect.center = ((display_width/2),(display_height/4))
+    gameDisplay.blit(TextSurf, TextRect)
+    # display evolved pokemon name
+    largeText = pygame.font.Font("fonts/Capture.ttf",57)
+    TextSurf, TextRect = text_objects(N,largeText, white)
+    TextRect.center = ((display_width/2),(display_height/4+100))
+    gameDisplay.blit(TextSurf, TextRect)
 # function to allow pokemon to evolve - change the image
 def evolve(d,x,msg):
     global pokemon
     if d == x and msg == "Squirtle":
         pokemon = "8"
+        originalName = "SQUIRTLE"
+        name = "WARTORTLE"
+        evolveMessage(name, originalName)
     if d == x*2 and msg == "Squirtle":
         pokemon = "9"
+        originalName = "WARTORTLE"
+        name = "BLASTOISE"
+        evolveMessage(name, originalName)
     if d == x and msg == "Bulbasaur":
         pokemon = "2"
+        originalName = "BULBASAUR"
+        name = "IVYSAUR"
+        evolveMessage(name, originalName)
     if d == x*2 and msg == "Bulbasaur":
         pokemon = "3"
+        originalName = "IVYSAUR"
+        name = "VENUSAUR"
+        evolveMessage(name, originalName)
     if d == x and msg == "Charmander":
         pokemon = "5"
+        originalName = "CHARMANDER"
+        name = "CHARMELEON"
+        evolveMessage(name, originalName)
     if d == x*2 and msg == "Charmander":
         pokemon = "6"
+        originalName = "CHARMELEON"
+        name = "CHARIZARD"
+        evolveMessage(name, originalName)
 # function to terminate the game
 def quitgame():
     pygame.quit()
@@ -262,7 +299,6 @@ def unpause():
     pause = False
 # function for pausing the game
 def paused():
-    
     largeText = pygame.font.Font("fonts/Capture.ttf",97)
     TextSurf, TextRect = text_objects("Paused", largeText, orange)
     TextRect.center = ((display_width/2),(display_height/2))
@@ -270,16 +306,14 @@ def paused():
     
     while pause:
         for event in pygame.event.get():
-            
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-    
-    button("Continue",'images/green.png',125,350,100,50,green,light_green,unpause)
+        button("Continue",'images/green.png',125,350,100,50,green,light_green,unpause)
         button("Quit",'images/red.png',525,350,100,50,red,light_red,quitgame)
         
         pygame.display.update()
-        clock.tick(15)
+    clock.tick(15)
 # game menu
 def game_intro():
     intro = True
@@ -334,7 +368,7 @@ def game_loop():
     # initial score
     dodged = 0
     # movement speed
-    speed = 25;
+    speed = 35;
     # game loop - logic behind the game
     # set of conditions for exiting the game
     gameExit = False
@@ -390,8 +424,8 @@ def game_loop():
                 # increases the speed of the pokeballs to be dodged
                 thing_speed += .4
                 # after a set number of pokeballs have been dodged, then randomize the # of pokeballs
-                if dodged%3 == 0:
-                    numObjects = random.randrange(1,3)
+                if dodged == 20:
+                    numObjects = 3
             # determines if the pokemon is captured (pokeball collides with the pokemon)
             if x+pokemon_width-75 < object_startx[i]:
                 if object_starty[i]+pokeball_height-25 > y and object_starty[i]+pokeball_height < y+pokemon_height or object_starty[i] > y and object_starty[i] < y+pokemon_height:
