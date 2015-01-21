@@ -1,5 +1,13 @@
 # my first python program
+<<<<<<< Updated upstream
 # this is a game in which Pokemon ride hoverboards while avoiding pokeballs
+=======
+<<<<<<< HEAD
+# this is a game in which Pokemon ride hoverboards to avoid pokeballs
+=======
+# this is a game in which Pokemon ride hoverboards while avoiding pokeballs
+>>>>>>> FETCH_HEAD
+>>>>>>> Stashed changes
 #!/usr/bin/env python
 # PyGame module/library
 import pygame
@@ -37,7 +45,7 @@ waterImg = pygame.image.load('PNG/Water Block.png')
 grassImg = pygame.image.load('PNG/Grass Block.png')
 treeImg = pygame.image.load('PNG/Tree Tall.png')
 bushImg = pygame.image.load('PNG/Tree Short.png')
-pokeballImg = pygame.image.load('images/poke.png')
+pokeballImg = [pygame.image.load('images/pokeball.png'),pygame.image.load('images/greatball.png'),pygame.image.load('images/ultraball.png'),pygame.image.load('images/masterball.png')]
 starImg = pygame.image.load('PNG/Star.png')
 hoverImg = pygame.image.load('images/hover.png')
 backgroundImg = pygame.image.load('images/space.png')
@@ -107,8 +115,8 @@ def bush():
     for x in range(0,20):
         gameDisplay.blit(bushImg,(shrubX[x],shrubY[x]))
 # function to display a pokeball
-def ball(w,h):
-    gameDisplay.blit(pokeballImg,(w,h))
+def ball(w,h,x):
+    gameDisplay.blit(pokeballImg[x],(w,h))
 # function to display a hoverboard
 def hover(w,h):
     gameDisplay.blit(hoverImg,(w,h))
@@ -313,7 +321,7 @@ def paused():
                 quit()
         button("Continue",'images/green.png',125,350,100,50,green,light_green,unpause)
         button("Quit",'images/red.png',525,350,100,50,red,light_red,quitgame)
-        
+
         pygame.display.update()
         clock.tick(15)
 # game menu
@@ -346,7 +354,7 @@ def game_intro():
         global pokemonImg
         pokemonImg = pygame.image.load('images/%s.png' % (pokemon))
         pygame.display.update()
-    clock.tick(15)
+        clock.tick(15)
 # function for the main game loop
 def game_loop():
     
@@ -361,7 +369,7 @@ def game_loop():
     numObjects = 3
     objectXY(numObjects)
     # initialize a random number of objects
-    numObjects = random.randrange(1,3)
+    numObjects = random.randrange(1,4)
     # initial speed of the object to dodge inside the game
     thing_speed = 15
     # the key repeat is disabled by default
@@ -371,6 +379,8 @@ def game_loop():
     dodged = 0
     # movement speed
     speed = 35;
+    # initial pokeball type
+    pokeballType = [0,0,0]
     # game loop - logic behind the game
     # set of conditions for exiting the game
     gameExit = False
@@ -407,12 +417,12 @@ def game_loop():
         tree()
         bush()
         # after a certain interval (x), evolve the pokemon
-        evolve(dodged,5,msg)
+        evolve(dodged,50,msg)
         # character on the hoverboard
         hover(x,y+35)
         mypokemon(x,y)
         for i in range(0,numObjects):
-            ball(object_startx[i],object_starty[i])
+            ball(object_startx[i],object_starty[i],pokeballType[i])
             object_startx[i] += thing_speed
             things_dodged(dodged)
             # game logic
@@ -428,6 +438,8 @@ def game_loop():
                 # after a set number of pokeballs have been dodged, then randomize the # of pokeballs
                 if dodged == 20:
                     numObjects = 3
+                # changes the pokeball type
+                pokeballType[i] = random.randrange(0,4)
             # determines if the pokemon is captured (pokeball collides with the pokemon)
             if x+pokemon_width-75 < object_startx[i]:
                 if object_starty[i]+pokeball_height-25 > y and object_starty[i]+pokeball_height < y+pokemon_height or object_starty[i] > y and object_starty[i] < y+pokemon_height:
