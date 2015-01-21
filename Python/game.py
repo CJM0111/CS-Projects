@@ -1,13 +1,6 @@
 # my first python program
-<<<<<<< Updated upstream
 # this is a game in which Pokemon ride hoverboards while avoiding pokeballs
-=======
-<<<<<<< HEAD
-# this is a game in which Pokemon ride hoverboards to avoid pokeballs
-=======
-# this is a game in which Pokemon ride hoverboards while avoiding pokeballs
->>>>>>> FETCH_HEAD
->>>>>>> Stashed changes
+# Author: Chris McDonald
 #!/usr/bin/env python
 # PyGame module/library
 import pygame
@@ -175,11 +168,11 @@ def crash():
         button("Quit",'images/red.png',525,350,100,50,red,light_red,quitgame)
         if msg == "Squirtle":
             pokemon = "7"
-if msg == "Bulbasaur":
-    pokemon = "1"
+        if msg == "Bulbasaur":
+            pokemon = "1"
         if msg == "Charmander":
             pokemon = "4"
-    pygame.display.update()
+        pygame.display.update()
         clock.tick(15)
 # function to handle being captured
 def captured():
