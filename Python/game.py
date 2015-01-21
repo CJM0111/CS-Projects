@@ -313,7 +313,7 @@ def paused():
         button("Quit",'images/red.png',525,350,100,50,red,light_red,quitgame)
         
         pygame.display.update()
-    clock.tick(15)
+        clock.tick(15)
 # game menu
 def game_intro():
     intro = True
