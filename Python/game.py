@@ -1,3 +1,5 @@
+# my first python program
+# this is a game in which Pokemon ride hoverboards while avoiding pokeballs
 #!/usr/bin/env python
 # PyGame module/library
 import pygame
