@@ -1,9 +1,12 @@
 import java.io.*;
 import java.util.*;
-
+/**
+ * Program to manage the data of a camp
+ * @author Chris McDonald
+ */
 public class poisonivy
 {
-    // data
+    // Global variables
     static camp camper;
     static camp camper2;
     static camp camper3;
@@ -14,43 +17,39 @@ public class poisonivy
     static double avg;
     static int boy;
     static int girl;
-    
-public static void main(String [] args)
-throws IOException
-{
-    Scanner campfile=new Scanner(new FileReader("camp.txt"));
-    Scanner cin=new Scanner(System.in);
-    // creates an object for the binary search tree
-    BST tree=new BST();
-    System.out.println("Welcome to Camp Posanivee!!");
-    // loops until the Q command is given and then terminates the program
-    while(command != 'Q')
-    {
-        // reads in the command and prints it out
-        command = campfile.next().charAt(0);
-        System.out.print("\nCommand: " + command);
-        // functions based on the command
-        help();
-        enroll(campfile, tree);
-        withdraw(campfile, tree);
-        display(campfile, tree);
-        average();
-        list(tree);
-        gender(tree);
-        preorder(tree);
-    }
-    System.out.println("\nEnd of program.");
-    System.out.println("Bring plenty of calomine!");
-}
-    // methods
     /**
-     displays the help command
-     @param the help command
+     * Main Method
+     */
+    public static void main(String [] args)
+    throws IOException
+    {
+        Scanner campfile=new Scanner(new FileReader("camp.txt"));
+        Scanner cin=new Scanner(System.in);
+        // Creates an object for the binary search tree
+        BST tree=new BST();
+        System.out.println("Welcome to Camp Posanivee!!");
+        while(command != 'Q') {
+            command = campfile.next().charAt(0);
+            System.out.print("\nCommand: " + command);
+            help();
+            enroll(campfile, tree);
+            withdraw(campfile, tree);
+            display(campfile, tree);
+            average();
+            list(tree);
+            gender(tree);
+            preorder(tree);
+        } // end while loop
+        System.out.println("\nEnd of program.");
+        System.out.println("Bring plenty of calomine!");
+    }
+    /**
+     * Displays the help command
+     * @param The help command
      */
     public static void help()
     {
-        if(command == 'H')
-        {
+        if(command == 'H') {
             System.out.println("Here is a list of commands: ");
             System.out.println("H = Help: print a list of commands");
             System.out.println("E = Enroll a new camper(insert)");
@@ -61,136 +60,120 @@ throws IOException
             System.out.println("S = Print the number of boy and girl campers");
             System.out.println("P = List all campers names in preorder");
             System.out.println("Q = Quit");
-        }
+        } // end if
     }
     /**
-     enrolls the new campers in the camp
-     @param enrolls the new camper
+     * Enrolls the new campers in the camp
+     * @param Enrolls the new camper
      */
     public static void enroll(Scanner campfile, BST tree)
     {
-        if(command == 'E')
-        {
+        if(command == 'E') {
         camper = new camp(campfile);
         tree.insert(camper);
         sum = sum + camper.getAge();
         total++;
         System.out.println(camper);
         System.out.println("New camper added.");
-        }
+        } // end if
     }
     /**
-     withdraws the campers already enrolled in the camp
-     @param withdraws a camper
+     * Withdraws the campers already enrolled in the camp
+     * @param Withdraws a camper
      */
     public static void withdraw(Scanner campfile, BST tree)
     {
-        if(command == 'W')
-        {
+        if(command == 'W') {
             camper = new camp(campfile);
             tree.delete(camper);
             sum = sum - camper.getAge();
             total--;
             System.out.println(" " + camper.getCamper());
             System.out.println("Camper withdrawn.");
-        }
+        } // end if
     }
     /**
-     displays the name, age and gender of a camper
-     @param diplays name, age and gender
+     * Displays the name, age and gender of a camper
+     * @param Diplays name, age and gender
      */
     public static void display(Scanner campfile, BST tree)
     {
-        if(command == 'D')
-        {
+        if(command == 'D') {
             name = new camp(campfile);
             System.out.print(" " + name.getCamper());
             camper3 = (camp)tree.lookup(name);
-            if(camper3 == null)
-            {
+            if(camper3 == null) {
                 System.out.println("Camper not found.");
-            }
-            else
-            {
+            } // end if
+            else {
                 System.out.println("\nName: " + camper3.getCamper() + "\nAge: " + camper3.getAge() + "\nGender: " + camper3.getGender());
-            }
-        }
+            } // end else
+        } // end if
     }
     /**
-     calculates and displays the average age of the campers enrolled
-     @param calculates and displays the average age
+     * Calculates and displays the average age of the campers enrolled
+     * @param Calculates and displays the average age
      */
     public static void average()
     {
-        if(command == 'A')
-        {
-            if(total == 0)
-            {
+        if(command == 'A') {
+            if(total == 0) {
                 System.out.println("\nThere are no campers.");
-            }
-            else
-            {
+            } // end if
+            else {
                 avg = sum/total;
                 System.out.println("\nAverage age = " + avg + ".");
-            }
-        }
+            } // end else
+        } // end if
     }
     /**
-     displays the camper in alphbetical order by first their name
-     @param displays campers in alphabetical order
+     * Displays the camper in alphbetical order by first their name
+     * @param Displays campers in alphabetical order
      */
     public static void list(BST tree)
     {
-        if(command == 'L')
-        {
+        if(command == 'L') {
             System.out.println("\nAlphabetical List of Campers:");
             tree.reset(BST.INORDER);
-            while(tree.hasNext())
-            {
+            while(tree.hasNext()) {
                 System.out.println(((camp)tree.getNext()).getCamper());
-            }
-        }
+            } // end while loop
+        } // end if
     }
     /**
-     displays the # of campers based on gender
-     @param displays the # of M/F campers
+     * Displays the # of campers based on gender
+     * @param displays the # of M/F campers
      */
     public static void gender(BST tree)
     {
-        if(command == 'S')
-        {
+        if(command == 'S') {
             tree.reset(BST.POSTORDER);
-            while(tree.hasNext())
-            {
+            while(tree.hasNext()) {
                 camper2 = ((camp)tree.getNext());
-                if(camper2.getGender().charAt(0) == 'M')
-                {
+                if(camper2.getGender().charAt(0) == 'M') {
                     boy++;
-                }
-                if(camper2.getGender().charAt(0) == 'F')
-                {
+                } // end if
+                if(camper2.getGender().charAt(0) == 'F'){
                     girl++;
-                }
-            }
+                } // end if
+            } // end while loop
             System.out.println("\nCamper count by gender: ");
             System.out.println("Boys = " + boy);
             System.out.println("Girls = " + girl);
         }
     }
     /**
-     displays the campers in a preorder traversal of the tree they are located in
-     @param does a preorder traversal of the tree
+     * Displays the campers in a preorder traversal of the tree they are located in
+     @param Does a preorder traversal of the tree
      */
     public static void preorder(BST tree)
     {
-        if(command == 'P')
-        {
+        if(command == 'P') {
             System.out.println("\nPreorder Traversal: ");
             tree.reset(BST.PREORDER);
-            while(tree.hasNext())
-            {
+            while(tree.hasNext()) {
                 System.out.println(((camp)tree.getNext()).getCamper());
-            }
-        }
+            } // end while loop
+        } // end if
     }
 }
