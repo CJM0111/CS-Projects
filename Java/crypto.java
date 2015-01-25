@@ -1,11 +1,14 @@
 import java.io.*;
 import java.util.*;
-/** Classical Encryption Program -
- *  Encrypts/Decrypts Messages(Shift, Substitution, Affine, Vigenere)
+
+/** 
+ *  Classical Encryption and Decryption Program -
+ *  Encrypts and Decrypts Messages using various ciphers - (Shift, Substitution, Affine, Vigenere)
  *  @author Chris McDonald
 */
 public class crypto
 {	
+	// Global variables
 	static int input;
 	static String end;
 	static String localend;
@@ -22,73 +25,79 @@ public class crypto
 	static int inverseA;
 	static char [] keyV;
 	
+	/** 
+	 * Main Method
+	 */
 	public static void main(String [] args)
 	throws IOException
 	{
-		do{
+		do {
 			welcome();
 			if(input == 1){shift();}
 			if(input == 2){sub();}
 			if(input == 3){affine();}
 			if(input == 4){vigenere();}
 			repeat();
+		}while(localend!="done"); // end do-while loop
+	}
+	/** 
+	* This method displays a menu and allows the user to select a cipher to use
+	*/
+	public static void welcome()
+	{
+		String end=null;
+		do {
+			// Display the menu
+			System.out.println("You are now entering the Cryptanalysis Program, there is no turning back.");
+			System.out.println("~Choose your preferred cipher~");
+			System.out.println("Shift Cipher(1)");
+			System.out.println("Substitution Cipher(2)");
+			System.out.println("Affine Cipher(3)");
+			System.out.println("Vigenere Cipher(4)");
+			System.out.print("Enter the corresponding number: ");
+			Scanner cin= new Scanner(System.in);
+			input = cin.nextInt();
+			if(input==1){end="done";}else
+			if(input==2){end="done";}else
+			if(input==3){end="done";}else
+			if(input==4){end="done";}else{end="no";}
+			if(end=="no"){System.out.println("Invalid input.");}
+		}while(end!="done"); // end do-while loop
+	}
+	/**
+	* This method allows the user to either use the program again or quit
+	*/
+	public static void repeat()
+	{
+		do {
+			Scanner cin=new Scanner(System.in);
+			System.out.print("Continue?(Y/N) ");
+			String repeat = cin.next();
+			char repeatChar=repeat.charAt(0);
+			if(repeatChar=='Y'){localend="done";}else
+			if(repeatChar=='y'){localend="done";}else
+			if(repeatChar=='N'){localend="done";end="done";}else
+			if(repeatChar=='n'){localend="done";end="done";}else{end="no";}
+			if(end=="no"){System.out.println("Invalid input.");}
 		}while(localend!="done");
 	}
-		/** 
-		 * This method displays a menu and allows the user to select an algorithm
-		 */
-		public static void welcome()
-		{
-			String end=null;
-			do{
-				System.out.println("You are now entering the Cryptanalysis Program, there is no turning back.");
-				System.out.println("~Choose your preferred cipher~");
-				System.out.println("Shift Cipher(1)");
-				System.out.println("Substitution Cipher(2)");
-				System.out.println("Affine Cipher(3)");
-				System.out.println("Vigenere Cipher(4)");
-				System.out.print("Enter the corresponding number: ");
-				Scanner cin= new Scanner(System.in);
-				input = cin.nextInt();
-				if(input==1){end="done";}else
-				if(input==2){end="done";}else
-				if(input==3){end="done";}else
-				if(input==4){end="done";}else{end="no";}
-				if(end=="no"){System.out.println("Invalid input.");}
-			}while(end!="done");
-		}
-		/** 
-		 * This method allows the user to either use the program again or quit
-		 */
-		public static void repeat()
-		{
-			do{
-				Scanner cin=new Scanner(System.in);
-				System.out.print("Continue?(Y/N) ");
-				String repeat = cin.next();
-				char repeatChar=repeat.charAt(0);
-				if(repeatChar=='Y'){localend="done";}else
-				if(repeatChar=='y'){localend="done";}else
-				if(repeatChar=='N'){localend="done";end="done";}else
-				if(repeatChar=='n'){localend="done";end="done";}else{end="no";}
-				if(end=="no"){System.out.println("Invalid input.");}
-			}while(localend!="done");
-		}
-		/** 
-		 * This method reads in a text file of the user's choosing and stores it into an array
-		 * When the file is read in, all characters are converted to UpperCase letters
-		 */
-		public static void readIn()
-		throws IOException, FileNotFoundException
-		{
-			System.out.print("Select your message. ");
-			System.out.print("Enter the name of your file. ");
-			System.out.print("(The format should be /Users/name/~): ");
-			Scanner cin= new Scanner(System.in);
-			String fileIn = cin.nextLine();
-			Scanner read=new Scanner(new FileReader(fileIn));
-			toText = read.nextLine();
-			while(read.hasNextLine()){toText += read.nextLine();};
+	/** 
+	* This method reads in a text file of the user's choosing and stores the text into a char array
+	* When the file is read in, all characters are converted to UpperCase letters
+	*/
+	public static void readIn()
+	throws IOException, FileNotFoundException
+	{
+		System.out.print("Select your message. ");
+		System.out.print("Enter the name of your file. ");
+		System.out.print("(The format should be /Users/name/~): ");
+		Scanner cin= new Scanner(System.in);
+		String fileIn = cin.nextLine();
+		Scanner read=new Scanner(new FileReader(fileIn));
+		toText = read.nextLine();
+		while(read.hasNextLine()) {
+			toText += read.nextLine();
+		}; // end while loop
 			text = toText.toCharArray();
 			for(int i=0;i<toText.length();i++){text[i] = Character.toUpperCase(text[i]);}
 			System.out.print("This is the message you selected: ");
