@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 /** 
- room class creates an object of one room to be used in the main wumpus program
- @author Chris McDonald - (room class)
+ * Room class creates an object of one room to be used in the main wumpus program
+ * @author Chris McDonald - (room class)
  */
 
 public class room
