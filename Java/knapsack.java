@@ -2,13 +2,12 @@ import java.io.*;
 import java.util.*;
 
 /** 
- the knapsack class creates an object of one item in the knapsack
- @author Chris McDonald - (knapsack class)
+ * The Knapsack Class creates an object for one item in the knapsack
+ * @author Chris McDonald
  */
 
 public class knapsack
 {
-    // data
     double price;
     double weight;
     
