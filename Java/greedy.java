@@ -2,9 +2,9 @@ import java.io.*;
 import java.util.*;
 
 /** 
- // the program calculates the "optimal" solution
- // for the 0-1 Knapsack problem using the greedy algorithm
- @author Chris McDonald - The Program: Greedy Algorithm
+ * This program calculates the "optimal" solution
+ * for the 0-1 Knapsack problem using the greedy algorithm
+ * @author Chris McDonald - The Program: Greedy Algorithm
  */
 public class greedy
 {
@@ -51,45 +51,37 @@ public class greedy
         }
         max = values[n];
         // runs the loop until the optimized solution is complete
-        do
-        {
-        	// determines the item with the maximum value per pound
-        	for(int i=1; i<total+1 ;i++)
-        	{
-        		if(values[i] > max)
-        		{
-        			max = values[i];
-        			o = i;
-        		}
-        		if(values[n] == max)
-        		{
-        			o = n;
-        		}
-        	}
-        	// sets that item's value to 0 so no items are repeated
-        	values[o] = 0;
-        	// resets the max to the first item
-        	max = values[n];
-        	// stops items from being added 
-        	// if they would exceed the capacity
-        	if(totalW + bag[o].getWeight() > capacity)
-        	{
-        		values[o] = 0;
-        	}
-        	else 
-        	{
-        		totalW = totalW + bag[o].getWeight();
-        		totalprice = totalprice + bag[o].getPrice();
-        	}
-        	// if adding the item with the lowest weight
-        	// would exceed the capacity
-        	// the loop ends
-        	if(totalW + minC > capacity)
-        	{
-        		a = 1;
-        	}
-        }
-        while(a != 1);
+        do {
+             // Determines the item with the maximum value per pound
+             for(int i=1; i<total+1 ;i++) {
+        		        if(values[i] > max) {
+        			            max = values[i];
+        			            o = i;
+        		        } // end if
+        		        if(values[n] == max) {
+        			            o = n;
+        		        } // end if
+             } // end for loop 
+        	    // Sets that item's value to 0 so no items are repeated
+        	    values[o] = 0;
+        	    // Resets the max to the first item
+        	    max = values[n];
+        	    // Stops items from being added 
+        	    // If they would exceed the capacity
+        	    if(totalW + bag[o].getWeight() > capacity) {
+        		         values[o] = 0;
+          	  } // end if
+        	    else {
+        		       totalW = totalW + bag[o].getWeight();
+        		       totalprice = totalprice + bag[o].getPrice();
+        	    } // end else
+        	    // If adding the item with the lowest weight
+        	    // would exceed the capacity,
+        	    // the loop ends
+        	    if(totalW + minC > capacity) {
+        		       a = 1;
+        	    } // end if
+        }while(a != 1); // end do-while loop
         System.out.println("This is the optimal price: " + totalprice + " dollars.");
         System.out.println("And this is the optimal weight: " + totalW + " pounds.");
     }
