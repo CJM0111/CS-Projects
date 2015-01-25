@@ -1,57 +1,55 @@
 import java.io.*;
 import java.util.*;
 /**
- The Sorting of Sorts Program ~
- Calculates/Displays the running times of 5 different sorting algorithms
- @author Chris McDonald MainSort class
+ * The Sorting of Sorts Program ~
+ * Calculates and Displays the run time of 5 different sorting algorithms
+ * @author Chris McDonald
  */
 
 public class MainSort implements Comparable
 {
-    // sorting algorithms
+    // Sorting algorithms
     public static void select(Comparable []A)
     {
-        for(int n=A.length; n>1; n--)
-        {
+        for(int n=A.length; n>1; n--) {
             int maxpos=findmax(A,n);
             swap(A,maxpos,n-1);
-        }
+        } // end for loop
     }
     private static void swap(Object [] A, int x, int y)
     {
         Object temp=A[x];
         A[x]=A[y]; A[y]=temp;
     }
-    private static int findmax(Comparable [] A,
-                               int n)
+    private static int findmax(Comparable [] A, int n)
     {
         int maxsofar=0;
-        for(int i=1; i<n; i++)
-            if(A[i].compareTo(A[maxsofar])>0)
+        for(int i=1; i<n; i++) {
+            if(A[i].compareTo(A[maxsofar])>0) {
                 maxsofar=i;
+            } // end if
+        } // end for loop
         return maxsofar;
     }
     public static void bubble(Comparable [] A)
     {
-        // loop for passes
         for(int i=0; i<A.length; i++)
-            // loop to swap items out of order
+            // Loop to swap items out of order
             for(int j=0; j+1<A.length; j++)
-                if(A[j].compareTo(A[j+1])>0)
+                if(A[j].compareTo(A[j+1])>0) {
                     swap(A,j,j+1);
+                } // end if
     }
     public static void insertion(Comparable [] A)
     {
-        for(int toinsert=1; toinsert<A.length;
-            toinsert++)
-        {  // copy stuff over
+        for(int toinsert=1; toinsert<A.length; toinsert++) {  
+            // Copy stuff over
             Comparable save=A[toinsert];
             int j;
-            for(j=toinsert; j>0 &&
-                A[j-1].compareTo(save)>0; j--)
-                A[j]=A[j-1];
-            A[j]=save;
-        }
+            for(j=toinsert; j>0 && A[j-1].compareTo(save)>0; j--) {
+                 A[j]=A[j-1];
+                 A[j]=save;
+        } // end for loop
     }
     public static void insert(Comparable [] A, int offset, int gap)
     {
