@@ -2,8 +2,8 @@ import java.io.*;
 import java.util.*;
 
 /** 
- A game based on a room layout, movement, shooting and monsters which can kill the user
- @author Chris McDonald - The Program: Hunt the Wumpus!
+ * A game based on a room layout, movement, shooting and monsters which can kill the user
+ * @author Chris McDonald - The Program: Hunt the Wumpus!
  */
 
 public class mainwumpus
