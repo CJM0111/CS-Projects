@@ -1,5 +1,4 @@
-# my first python program
-# this is a game in which Pokemon ride hoverboards while avoiding pokeballs
+# This is a game in which Pokemon ride hoverboards while avoiding pokeballs
 # Author: Chris McDonald
 #!/usr/bin/env python
 # PyGame module/library
