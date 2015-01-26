@@ -1,9 +1,9 @@
 import java.io.*;
 import java.util.*;
-
+// Camp Object Class
+// @author Chris McDonald
 public class camp implements Comparable
 {
-    // data
     char command;
     String camper;
     int age;
@@ -16,27 +16,23 @@ public class camp implements Comparable
      */
     public camp(Scanner r)
     {
-        if(r.hasNext())
-        {
+        if(r.hasNext()) {
             camper = r.next();
-            if(r.hasNextInt())
-            {
+            if(r.hasNextInt()) {
                 age = r.nextInt();
-                if(r.hasNext())
-                {
-                gender = r.next();
-                blank = r.nextLine();
-                }
-            }
-        }
-        else
-        {
+                if(r.hasNext()) {
+                    gender = r.next();
+                    blank = r.nextLine();
+                } // end if
+            } // end if
+        } // end if
+        else{
             blank = r.nextLine();
-        }
+        } // end else
         
     }
     /**
-     print - observer
+     Print - observer
      @return a string representing the info
      */
     public String toString()
@@ -44,25 +40,25 @@ public class camp implements Comparable
         return command + " " + camper + " " + age + " " + gender;
     }
     /**
-     get the command - observer
+     Get the command - observer
      @return the command
      */
     public char getCommand()
     { return command; }
     /**
-     get the camper's name - observer
+     Get the camper's name - observer
      @return the camper's name
      */
     public String getCamper()
     { return camper; }
     /**
-     get the age of the camper - observer
+     Get the age of the camper - observer
      @return the camper's age
      */
     public int getAge()
     { return age; }
     /**
-     get the gender of the camper - observer
+     Get the gender of the camper - observer
      @return the camper's gender
      */
     public String getGender()
